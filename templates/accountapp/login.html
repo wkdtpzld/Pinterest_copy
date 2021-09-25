@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+
+    <div style='text-align: center; max-width: 500px; margin: 4rem auto; ' >
+        <div>
+            <h4> 로그인 </h4>
+        </div>
+        <div>
+            <form action="" method ='post'>
+                {% csrf_token%}
+                <div class='form-group' style='margin-bottom: 1rem'>
+                    <label for='username'>사용자ID</label>
+                    <input type='text' class='form-control' name='username' id='username' value='{{ form.username.value|default_if_none:'' }}' placeholder="사용자 이름" > 
+                </div>
+                <div class='form-group'>
+                    <label for='password'>비밀번호</label>
+                    <input type='password' class='form-control' name='password' id='password' value='{{ form.password.value|default_if_none:'' }}' placeholder="비밀번호" >
+                </div>
+                <input type='submit' class='btn btn-dark rounded-pill col-6 mt-3'>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
