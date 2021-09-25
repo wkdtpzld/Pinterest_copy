@@ -10,6 +10,11 @@
     margin-top: 2rem;
 }
 
-.Margin_bottom{
-    margin-bottom: 4rem;
+input[type=password] 
+    { font-family: "default"; 
+}
+
+::placeholder {
+    font-family: "NanumSquareR";
+    color: #888
 }
