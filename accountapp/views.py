@@ -1,3 +1,4 @@
+from accountapp.decorators import account_ownership_required
 from django.views.generic.edit import DeleteView
 from accountapp.forms import Account_Update_Form
 from django.shortcuts import render, HttpResponseRedirect
@@ -7,22 +8,29 @@ from django.urls import reverse
 from django.views.generic import CreateView, DetailView, UpdateView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+has_ownership=[login_required, account_ownership_required]
 
+@login_required
 def hello_world(request):
 
-    if request.method == "POST":
-        temp = request.POST.get('hello_world_input')
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            temp = request.POST.get('hello_world_input')
 
-        new_hello = HelloWorld()
-        new_hello.text = temp
-        new_hello.save()
+            new_hello = HelloWorld()
+            new_hello.text = temp
+            new_hello.save()
 
-        return HttpResponseRedirect(reverse('accountapp:hello_world'))
+            return HttpResponseRedirect(reverse('accountapp:hello_world'))
 
+        else:
+            hello_world_list = HelloWorld.objects.all()
+            return render(request, 'accountapp/hello_world.html',context={'hello_world_list':hello_world_list})
     else:
-        hello_world_list = HelloWorld.objects.all()
-        return render(request, 'accountapp/hello_world.html',context={'hello_world_list':hello_world_list})
+        return HttpResponseRedirect(reverse('accountapp:login'))
 
 class Account_Create_View(CreateView):
     model = User
@@ -35,14 +43,22 @@ class Account_Detail_View(DetailView):
     template_name = 'accountapp/detail.html'
     context_object_name = 'target_user'
 
+
+@method_decorator(has_ownership, 'get')
+@method_decorator(has_ownership, 'post')
 class Account_Update_View(UpdateView):
     model = User
+    context_object_name = 'target_user'
     form_class= Account_Update_Form
     template_name = 'accountapp/update.html'
     success_url = reverse_lazy('accountapp:hello_world')
 
+
+
+@method_decorator(has_ownership, 'post')
+@method_decorator(has_ownership, 'get')
 class Account_Delete_View(DeleteView):
     model = User
+    context_object_name = 'target_user'
     success_url = reverse_lazy('accountapp:login')
     template_name = 'accountapp/delete.html'
-    
