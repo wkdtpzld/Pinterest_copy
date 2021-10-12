@@ -18,3 +18,12 @@ input[type=password]
     font-family: "NanumSquareR";
     color: #888
 }
+
+.comment_detail{
+    border: 1px solid;
+    text-align: left; 
+    padding: 4%; 
+    margin: 1rem; 
+    border-radius: 1rem; 
+    border-color: #bbb
+}
