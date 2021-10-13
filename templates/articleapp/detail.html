@@ -15,7 +15,7 @@
     </p>
 
     {% if target_article.writer == user %}
-    <a href="{% url 'articleapp:update' pk=target_article.pk %}" class="btn btn-danger rounded-pill col-2">
+    <a href="{% url 'articleapp:update' pk=target_article.pk %}" class="btn btn-primary rounded-pill col-2">
         수정
     </a>
 
@@ -31,4 +31,4 @@
     {% include 'commentapp/create.html' with article=target_article %}
     </div>
 </div>
-{% endblock %}
+{% endblock %} 

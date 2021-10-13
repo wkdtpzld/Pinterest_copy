@@ -27,3 +27,9 @@ input[type=password]
     border-radius: 1rem; 
     border-color: #bbb
 }
+
+@media screen and (max-width:500px) {
+    html{
+        font-size: 13px;
+    }
+}

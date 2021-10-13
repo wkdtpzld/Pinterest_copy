@@ -58,4 +58,4 @@ class Article_List_View(ListView):
     model = Article
     context_object_name = 'article_list'
     template_name = 'articleapp/list.html'
-    paginate_by = 1
+    paginate_by = 3
