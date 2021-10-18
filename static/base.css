@@ -33,3 +33,21 @@ input[type=password]
         font-size: 13px;
     }
 }
+
+a {
+    color : black;
+    text-decoration: none;
+}
+
+a:hover{
+    color : black;
+    text-decoration: none;
+}
+
+.Pragmatic_header_nav {
+    margin: 1.5rem 0.5rem;
+}
+
+.Pragmatic_header_navbar{
+    margin: 1rem 0;
+}

@@ -25,4 +25,6 @@ urlpatterns = [
     path('profiles/', include('profileapp.urls')),
     path('articles/', include('Articleapp.urls')),
     path('commentapp/',include('commentapp.urls')),
+    path('projectapp/',include('projectapp.urls')),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
