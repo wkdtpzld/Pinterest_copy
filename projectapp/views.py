@@ -3,9 +3,11 @@ from django.views.generic           import CreateView, ListView, DetailView
 from django.urls                    import reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators        import method_decorator
+from django.views.generic.list      import MultipleObjectMixin
 
-from .models    import Projectapp
-from .forms     import ProjectCreationForm
+from Articleapp. models import Article
+from .models            import Projectapp
+from .forms             import ProjectCreationForm
 
 
 @method_decorator(login_required, 'get')
@@ -19,10 +21,16 @@ class Create_Project_View(CreateView):
         return reverse('projectapp:detail', kwargs={'pk':self.object.pk})
 
 
-class Detail_Project_View(DetailView):
+class Detail_Project_View(DetailView, MultipleObjectMixin):
     model = Projectapp
     context_object_name = 'target_project'
     template_name = 'projectapp/detail.html'
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(project=self.get_object())
+        return super(Detail_Project_View, self).get_context_data(object_list=object_list, **kwargs)
+
 
 class Project_list(ListView):
     model = Projectapp

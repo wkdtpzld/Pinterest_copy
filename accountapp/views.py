@@ -1,15 +1,18 @@
-from accountapp.decorators import account_ownership_required
-from django.views.generic.edit import DeleteView
-from accountapp.forms import Account_Update_Form
-from django.shortcuts import render, HttpResponseRedirect
-from django.urls.base import reverse_lazy
-from .models import HelloWorld
-from django.urls import reverse
-from django.views.generic import CreateView, DetailView, UpdateView
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.list      import MultipleObjectMixin
+from django.views.generic.edit      import DeleteView
+from accountapp.forms               import Account_Update_Form
+from django.shortcuts               import render, HttpResponseRedirect
+from django.urls.base               import reverse_lazy
+from django.urls                    import reverse
+from django.views.generic           import CreateView, DetailView, UpdateView
+from django.contrib.auth.models     import User
+from django.contrib.auth.forms      import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.utils.decorators        import method_decorator
+
+from accountapp.decorators          import account_ownership_required
+from .models                        import HelloWorld
+from Articleapp.models              import Article
 
 has_ownership=[login_required, account_ownership_required]
 
@@ -38,10 +41,16 @@ class Account_Create_View(CreateView):
     success_url = reverse_lazy('accountapp:hello_world')
     template_name = 'accountapp/create.html'
 
-class Account_Detail_View(DetailView):
+class Account_Detail_View(DetailView, MultipleObjectMixin):
     model = User
     template_name = 'accountapp/detail.html'
     context_object_name = 'target_user'
+
+    paginate_by = 25
+
+    def get_context_data(self, **kwargs):
+        object_list = Article.objects.filter(writer=self.get_object())
+        return super(Account_Detail_View, self).get_context_data(object_list=object_list, **kwargs)
 
 
 @method_decorator(has_ownership, 'get')
