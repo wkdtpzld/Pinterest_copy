@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators        import method_decorator
 from django.views.generic.list      import MultipleObjectMixin
 
-from Articleapp. models import Article
-from .models            import Projectapp
-from .forms             import ProjectCreationForm
+from Articleapp. models     import Article
+from subscribeapp.models    import Subscription
+from .models                import Projectapp
+from .forms                 import ProjectCreationForm
 
 
 @method_decorator(login_required, 'get')
@@ -28,8 +29,15 @@ class Detail_Project_View(DetailView, MultipleObjectMixin):
     paginate_by = 25
 
     def get_context_data(self, **kwargs):
+        project = self.object
+        user = self.request.user
+
+        if user.is_authenticated:
+            subscription = Subscription.objects.filter(user=user,project=project)
+        
+
         object_list = Article.objects.filter(project=self.get_object())
-        return super(Detail_Project_View, self).get_context_data(object_list=object_list, **kwargs)
+        return super(Detail_Project_View, self).get_context_data(object_list=object_list, subscription=subscription , **kwargs)
 
 
 class Project_list(ListView):
