@@ -11,29 +11,10 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators        import method_decorator
 
 from accountapp.decorators          import account_ownership_required
-from .models                        import HelloWorld
+
 from Articleapp.models              import Article
 
 has_ownership=[login_required, account_ownership_required]
-
-@login_required
-def hello_world(request):
-
-    if request.user.is_authenticated:
-        if request.method == "POST":
-            temp = request.POST.get('hello_world_input')
-
-            new_hello = HelloWorld()
-            new_hello.text = temp
-            new_hello.save()
-
-            return HttpResponseRedirect(reverse('accountapp:hello_world'))
-
-        else:
-            hello_world_list = HelloWorld.objects.all()
-            return render(request, 'accountapp/hello_world.html',context={'hello_world_list':hello_world_list})
-    else:
-        return HttpResponseRedirect(reverse('accountapp:login'))
 
 class Account_Create_View(CreateView):
     model = User

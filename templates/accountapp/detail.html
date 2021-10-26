@@ -9,8 +9,10 @@
         <h2>
             {{ target_user.profile.nickname }}
                 {% if target_user == user %}
-                <a href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
-                    edit
+                <a class="material-icons"
+                style ="box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;"
+                href="{% url 'profileapp:update' pk=target_user.profile.pk %}">
+                edit
                 </a>
                 {% endif%}
         </h2>
@@ -28,18 +30,23 @@
             닉네임 미설정
             {% endif %}
         {% endif %}
-
+        
         {% if target_user == user %}
-        <a href="{% url 'accountapp:update' pk=user.pk %}">
-            <p>
-                수정하기
-            </p>
-        </a>
-        <a href="{% url 'accountapp:delete' pk=user.pk %}">
-            <p>
-                회원탈퇴
-            </p>
-        </a>
+            <a class="material-icons"
+                style ="box-shadow: 0 0 4px #ccc; border-radius: 10rem; padding: .4rem;"
+                href="{% url 'accountapp:update' pk=user.pk %}">
+                <p>
+                    account_circle
+                </p>
+            </a>
+            
+            <a class="material-icons"
+                style ="box-shadow: 0 0 4px #fcc; border-radius: 10rem; padding: .4rem;"
+                href="{% url 'accountapp:delete' pk=user.pk %}">
+                <p>
+                    delete
+                </p>
+            </a>
         {% endif %}
     </div>
 
@@ -47,6 +54,6 @@
     <div>
 
         {% include 'snippets/list_fragment.html' with article_list=object_list %}
-
+        <br />
     </div>
 {% endblock %}
